@@ -53,10 +53,10 @@ class _LoginScreenState extends State<LoginScreen> {
             key: _formKey,
             child: Column(
               children: [
-                Image.asset('assets/images/logo.png',
+                Image.asset('assets/images/Logo_Veritest.png',
                     width: logoSize, height: logoSize),
-                const SizedBox(height: 12),
-                const Text('Selamat datang',
+                const SizedBox(height: 28),
+                const Text('Selamat datang!',
                     style:
                     TextStyle(fontSize: 28, fontWeight: FontWeight.w700)),
                 const SizedBox(height: 4),
@@ -92,14 +92,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   child: PrimaryButton(
                     label: 'Masuk',
-                    icon: Icons.login_rounded,
                     onPressed: _submit,
                   ),
                 ),
                 const SizedBox(height: 12),
                 TextButton(
                   onPressed: () => Navigator.of(context).pushNamed(AppRoutes.register),
-                  child: const Text('Belum punya akun? Daftar'),
+                  child: Text.rich(
+                    const TextSpan(
+                      text: 'Belum punya akun? ',
+                      children: [
+                        TextSpan(
+                          text: 'Daftar',
+                          style: TextStyle(
+                            color: Color(0xFF89AEFF),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 4),
                 const Text('Coba cepat: demo@kuis.com / 123456',
