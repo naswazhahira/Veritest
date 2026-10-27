@@ -48,6 +48,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    final logoSize = (size.shortestSide * 0.3).clamp(90.0, 160.0);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -63,6 +66,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             key: _formKey,
             child: Column(
               children: [
+                Image.asset('assets/images/Logo_Veritest.png',
+                    width: logoSize, height: logoSize),
+                const SizedBox(height: 28),
                 const Text('Buat akun',
                     style:
                     TextStyle(fontSize: 28, fontWeight: FontWeight.w700)),
@@ -118,15 +124,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   width: double.infinity,
                   child: PrimaryButton(
                     label: 'Daftar',
-                    icon: Icons.person_add_rounded,
                     onPressed: _submit,
                   ),
                 ),
                 const SizedBox(height: 12),
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('Sudah punya akun? Masuk'),
+                  child: Text.rich(
+                    const TextSpan(
+                      text: 'Sudah punya akun? ',
+                      children: [
+                        TextSpan(
+                          text: 'Masuk',
+                          style: TextStyle(
+                            color: Color(0xFF89AEFF),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
+                // TextButton(
+                //   onPressed: () => Navigator.of(context).pop(),
+                //   child: const Text('Sudah punya akun? Masuk'),
+                // ),
               ],
             ),
           ),
