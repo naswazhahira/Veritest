@@ -23,10 +23,23 @@ class LeaderboardTab extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.fromLTRB(20, 20, 20, 12),
-          child: Text('Peringkat',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
+          child: Row(
+            children: [
+              Image.asset(
+                'assets/images/V.png',
+                height: 32,
+                width: 32,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(width: 10),
+              const Text(
+                'Peringkat',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+              ),
+            ],
+          ),
         ),
         Expanded(
           child: entries.isEmpty

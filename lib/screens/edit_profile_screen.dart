@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
 import '../providers/quiz_provider.dart';
+import '../utils/avatars.dart';
 import '../widgets/auth_text_field.dart';
 import '../widgets/gradient_background.dart';
 import '../widgets/primary_button.dart';
@@ -20,11 +21,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late final TextEditingController _name;
   final _current = TextEditingController();
   final _new = TextEditingController();
+  int? _avatar;
 
   @override
   void initState() {
     super.initState();
-    _name = TextEditingController(text: context.read<AuthProvider>().user.name);
+    final user = context.read<AuthProvider>().user;
+    _name = TextEditingController(text: user.name);
+    _avatar = user.avatarIndex;
   }
 
   @override
@@ -44,6 +48,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       name: _name.text,
       currentPassword: _current.text,
       newPassword: _new.text,
+      avatarIndex: _avatar,
     );
     if (error != null) {
       ScaffoldMessenger.of(context)
@@ -55,7 +60,88 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     Navigator.of(context).pop();
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(const SnackBar(content: Text('Profil berhasil diperbarui')));
+      ..showSnackBar(
+          const SnackBar(content: Text('Profil berhasil diperbarui')));
+  }
+
+  Widget _avatarImage(int i, double size) {
+    return ClipOval(
+      child: SizedBox(
+        width: size,
+        height: size,
+        child: Transform.scale(
+          scale: 1.35,
+          child: Image.asset(
+            avatarAssets[i],
+            width: size,
+            height: size,
+            fit: BoxFit.cover,
+            errorBuilder: (_, __, ___) => Container(
+              width: size,
+              height: size,
+              color: Colors.grey.shade700,
+              child: const Icon(Icons.broken_image_rounded,
+                  color: Colors.white70),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickAvatar() async {
+    final primary = Theme.of(context).colorScheme.primary;
+
+    final picked = await showDialog<int>(
+      context: context,
+      builder: (ctx) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('Pilih avatar',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+              const SizedBox(height: 16),
+              GridView.count(
+                crossAxisCount: 3,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                mainAxisSpacing: 14,
+                crossAxisSpacing: 14,
+                children: List.generate(avatarAssets.length, (i) {
+                  final selected = _avatar == i;
+                  return GestureDetector(
+                    onTap: () => Navigator.of(ctx).pop(i),
+                    child: Container(
+                      padding: const EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: selected ? primary : Colors.transparent,
+                          width: 3,
+                        ),
+                      ),
+                      child: LayoutBuilder(
+                        builder: (_, c) => _avatarImage(i, c.maxWidth),
+                      ),
+                    ),
+                  );
+                }),
+              ),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text('Batal'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (picked != null) setState(() => _avatar = picked);
   }
 
   @override
@@ -77,9 +163,35 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             key: _formKey,
             child: Column(
               children: [
-                UserAvatar(name: _name.text.isEmpty ? user.name : _name.text, radius: 44),
+                GestureDetector(
+                  onTap: _pickAvatar,
+                  child: Stack(
+                    children: [
+                      UserAvatar(
+                        name: _name.text.isEmpty ? user.name : _name.text,
+                        radius: 44,
+                        avatarIndex: _avatar,
+                      ),
+                      Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.edit_rounded,
+                              size: 16, color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 10),
                 Text(user.email),
+                const SizedBox(height: 24),
+
                 const SizedBox(height: 24),
                 AuthTextField(
                   controller: _name,
@@ -125,7 +237,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   width: double.infinity,
                   child: PrimaryButton(
                     label: 'Simpan Perubahan',
-                    icon: Icons.check_rounded,
                     onPressed: _save,
                   ),
                 ),

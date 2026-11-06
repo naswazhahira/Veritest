@@ -41,12 +41,13 @@ class AuthProvider extends ChangeNotifier {
     return null;
   }
 
-  /// Mengubah nama, dan kata sandi jika [newPassword] diisi.
+  /// Mengubah nama, avatar, dan kata sandi jika [newPassword] diisi.
   /// Mengembalikan pesan error, atau null jika berhasil.
   String? updateProfile({
     required String name,
     String? currentPassword,
     String? newPassword,
+    int? avatarIndex,
   }) {
     final old = _current!;
     final changingPassword = newPassword != null && newPassword.isNotEmpty;
@@ -57,6 +58,7 @@ class AuthProvider extends ChangeNotifier {
       name: name.trim(),
       email: old.email,
       password: changingPassword ? newPassword : old.password,
+      avatarIndex: avatarIndex,
     );
     final i = _users.indexWhere((u) => u.email == old.email);
     _users[i] = updated;

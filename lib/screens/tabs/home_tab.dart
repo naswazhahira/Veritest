@@ -29,7 +29,7 @@ class HomeTab extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
             child: Row(
               children: [
-                UserAvatar(name: user.name, radius: 26),
+                UserAvatar(name: user.name, radius: 26, avatarIndex: user.avatarIndex,),
                 const SizedBox(width: 14),
                 Expanded(
                   child: Column(

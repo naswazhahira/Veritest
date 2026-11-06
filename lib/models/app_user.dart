@@ -3,9 +3,12 @@ class AppUser {
   final String email;
   final String password;
 
+  final int? avatarIndex;
+
   const AppUser({
     required this.name,
     required this.email,
     required this.password,
+    this.avatarIndex,
   });
 }

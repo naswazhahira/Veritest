@@ -58,7 +58,7 @@ class ProfileTab extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          UserAvatar(name: user.name, radius: 44),
+          UserAvatar(name: user.name, radius: 44, avatarIndex: user.avatarIndex,),
           const SizedBox(height: 12),
           Text(user.name,
               style:
@@ -158,7 +158,6 @@ class ProfileTab extends StatelessWidget {
             width: double.infinity,
             child: OutlinedButton.icon(
               onPressed: () => _confirmLogout(context),
-              icon: const Icon(Icons.logout_rounded),
               label: const Text('Keluar'),
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppColors.wrong,
