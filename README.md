@@ -57,8 +57,6 @@ Kebutuhan: Flutter SDK dengan Dart `>=3.4.0 <4.0.0`.
 
 ### Screenshot Tiap Halaman
 
-Simpan screenshot di folder `docs/screenshots/` dengan nama seperti di bawah, lalu gambar akan tampil otomatis.
-
 | Halaman             | Screenshot                                      |
 |---------------------|-------------------------------------------------|
 | Login               | ![Login](docs/screenshots/login.jpeg)           |
