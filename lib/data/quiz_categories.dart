@@ -32,4 +32,18 @@ const List<QuizCategory> quizCategories = [
     color: Color(0xFFE11D74),
     questions: techQuestions,
   ),
+  QuizCategory(
+    title: 'Sains',
+    description: 'Biologi, fisika, dan kimia',
+    icon: Icons.science_rounded,
+    color: Color(0xFF16A34A),
+    questions: scienceQuestions,
+  ),
+  QuizCategory(
+    title: 'Bahasa Indonesia',
+    description: 'Tata bahasa dan kosakata',
+    icon: Icons.menu_book_rounded,
+    color: Color(0xFF2563EB),
+    questions: indonesianQuestions,
+  ),
 ];
